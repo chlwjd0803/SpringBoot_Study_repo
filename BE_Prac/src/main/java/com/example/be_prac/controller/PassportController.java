@@ -1,6 +1,7 @@
 package com.example.be_prac.controller;
 
-import com.example.be_prac.dto.PassportDto;
+import com.example.be_prac.dto.PassportReqDto;
+import com.example.be_prac.dto.PassportResDto;
 import com.example.be_prac.entity.Passport;
 import com.example.be_prac.service.PassportService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class PassportController {
     // 여권 정보 개별 조회
     @GetMapping("/{passportNo}")
     public ResponseEntity<?> getPassport(@PathVariable String passportNo) {
-        PassportDto findInfo = passportService.getPassport(passportNo);
+        PassportResDto findInfo = passportService.getPassport(passportNo);
         return (findInfo != null) ?
                 ResponseEntity.ok(findInfo) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("찾을 수 없습니다. 여권 번호를 확인해주세요.");
@@ -32,14 +33,14 @@ public class PassportController {
     // 여권 정보 전체 조회
     @GetMapping
     public ResponseEntity<?> getAllPassport() {
-        List<PassportDto> allOfPassport = passportService.getAllPassport();
+        List<PassportResDto> allOfPassport = passportService.getAllPassport();
         return ResponseEntity.ok(allOfPassport);
     }
 
     // 여권 정보 생성
     @PostMapping
-    public ResponseEntity<?> makePassport(@RequestBody PassportDto passportDto) {
-        Passport createdPassport = passportService.makePassport(passportDto);
+    public ResponseEntity<?> makePassport(@RequestBody PassportReqDto passportReqDto) {
+        Passport createdPassport = passportService.makePassport(passportReqDto);
         return (createdPassport != null) ?
                 ResponseEntity.created(URI.create("/api/v1/passport/" + createdPassport.getPassportNo())).build() :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("입력 형식이 잘못되었습니다. 확인 바랍니다.");
@@ -49,8 +50,8 @@ public class PassportController {
 
     // 여권 정보 수정
     @PatchMapping("/{passportNo}")
-    public ResponseEntity<?> updatePassport(@PathVariable String passportNo, @RequestBody PassportDto passportDto) {
-        PassportDto updated = passportService.updatePassport(passportNo, passportDto);
+    public ResponseEntity<?> updatePassport(@PathVariable String passportNo, @RequestBody PassportReqDto passportReqDto) {
+        PassportResDto updated = passportService.updatePassport(passportNo, passportReqDto);
         return (updated != null) ?
                 ResponseEntity.ok().build() :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정 정보 입력을 정확히 입력해주세요.");
@@ -59,7 +60,7 @@ public class PassportController {
     // 여권 정보 삭제
     @DeleteMapping("/{passportNo}")
     public ResponseEntity<?> deletePassport(@PathVariable String passportNo) {
-        PassportDto deletedPassport = passportService.deletePassport(passportNo);
+        PassportResDto deletedPassport = passportService.deletePassport(passportNo);
         return(deletedPassport != null) ?
                 ResponseEntity.ok().build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("찾을 수 없습니다. 여권 번호를 확인해주세요.");

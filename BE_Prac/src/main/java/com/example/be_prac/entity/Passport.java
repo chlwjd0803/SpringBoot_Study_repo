@@ -1,6 +1,7 @@
 package com.example.be_prac.entity;
 
-import com.example.be_prac.dto.PassportDto;
+import com.example.be_prac.dto.PassportReqDto;
+import com.example.be_prac.dto.PassportResDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,33 +22,29 @@ public class Passport {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
-    private String nation;
+    @ManyToOne
+    @JoinColumn(name = "country_code")
+    private Country country;
 
     // 빌더를 통한 생성자 실행, 주입하지 않은 정보는 null 처리됨
     @Builder
-    public Passport(String passportNo, String fullName, String nation) {
+    public Passport(String passportNo, String fullName, Country country) {
         this.passportNo = passportNo;
         this.fullName = fullName;
-        this.nation = nation;
+        this.country = country;
     }
 
-    public PassportDto toDto() {
-        return new PassportDto(this.id, this.passportNo, this.fullName, this.nation);
+    public PassportResDto toDto() {
+        return new PassportResDto(this.id, this.passportNo, this.fullName, this.country.getName());
     }
 
-    public void patch(PassportDto passportDto) {
-        if(passportDto.getFullName() != null && !passportDto.getFullName().equals(this.fullName)
-                && !passportDto.getPassportNo().matches("BL13[A-Z]{2}[0-9]{4}"))
-            this.passportNo = passportDto.getPassportNo();
+    public void patch(PassportReqDto passportReqDto) {
+        if(passportReqDto.getFullName() != null && !passportReqDto.getFullName().equals(this.fullName)
+                && !passportReqDto.getPassportNo().matches("BL13[A-Z]{2}[0-9]{4}"))
+            this.passportNo = passportReqDto.getPassportNo();
 
-        if(passportDto.getFullName() != null && !passportDto.getFullName().equals("")
-                && !passportDto.getFullName().equals(this.fullName))
-            this.fullName = passportDto.getFullName();
-
-        if(passportDto.getNation() != null && !passportDto.getNation().equals("")
-                && !passportDto.getNation().equals(this.nation))
-            this.nation = passportDto.getNation();
-
+        if(passportReqDto.getFullName() != null && !passportReqDto.getFullName().equals("")
+                && !passportReqDto.getFullName().equals(this.fullName))
+            this.fullName = passportReqDto.getFullName();
     }
 }
