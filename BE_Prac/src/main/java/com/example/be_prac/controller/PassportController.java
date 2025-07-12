@@ -61,7 +61,7 @@ public class PassportController {
     @DeleteMapping("/{passportNo}")
     public ResponseEntity<?> deletePassport(@PathVariable String passportNo) {
         PassportResDto deletedPassport = passportService.deletePassport(passportNo);
-        return(deletedPassport != null) ?
+        return (deletedPassport != null) ?
                 ResponseEntity.ok().build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("찾을 수 없습니다. 여권 번호를 확인해주세요.");
     }
