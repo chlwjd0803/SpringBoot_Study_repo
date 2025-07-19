@@ -38,7 +38,7 @@ public class PassportService {
     }
 
     public Passport makePassport(PassportReqDto passportReqDto) {
-        // 이미 존재하는 여권번호는 제외하기 위함
+        // 이미 존재하는 여권번호는 제외하기 위함, 존재하지 않는 국가일때
         if(passportRepository.findByPassportNo(passportReqDto.getPassportNo()).isPresent()
          || countryRepository.findByCode(passportReqDto.getCountryCode()) == null)
             return null;

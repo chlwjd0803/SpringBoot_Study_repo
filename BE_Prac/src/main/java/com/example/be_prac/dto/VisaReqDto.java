@@ -13,10 +13,8 @@ import java.time.LocalDate;
 public class VisaReqDto {
     private String passportNo;
     private String countryCode;
-    private String startDate;
-    private String endDate;
 
     public Visa toEntity() {
-        return new Visa(null, null, LocalDate.now(), LocalDate.now().plusYears(10));
+        return new Visa(null, null, LocalDate.now(), LocalDate.now().plusYears(1));
     }
 }

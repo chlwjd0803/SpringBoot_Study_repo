@@ -17,7 +17,7 @@ public class Visa {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "passport_no")
+    @JoinColumn(name = "passport_id")
     private Passport passport;
 
     @ManyToOne
