@@ -17,3 +17,7 @@ server:
   servlet:
     session:
       timeout: 10m
+
+openai:
+  api:
+    key: ${OPENAPI_KEY}
