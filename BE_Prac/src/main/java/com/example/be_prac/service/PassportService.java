@@ -2,6 +2,7 @@ package com.example.be_prac.service;
 
 import com.example.be_prac.dto.PassportReqDto;
 import com.example.be_prac.dto.PassportResDto;
+import com.example.be_prac.dto.PassportVerifyDto;
 import com.example.be_prac.entity.Passport;
 import com.example.be_prac.repository.CountryRepository;
 import com.example.be_prac.repository.PassportRepository;
@@ -75,5 +76,13 @@ public class PassportService {
         original.setCountry(countryRepository.findByCode(passportReqDto.getCountryCode()));
         passportRepository.save(original);
         return original.toDto();
+    }
+
+    public boolean verifyPassport(PassportVerifyDto dto) {
+        // 1. 여권 정보가 일치하는지 비교
+        Passport passport = passportRepository.findByPassportNo(dto.getPassportNo()).orElse(null);
+        if(passport == null) return false;
+        // 국가 이름만 일치하는지 찾기, 일치하면 true 아니면 false
+        return passport.getCountry().getCode().equals(dto.getCountryCode());
     }
 }

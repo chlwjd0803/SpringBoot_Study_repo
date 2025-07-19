@@ -2,8 +2,10 @@ package com.example.be_prac.controller;
 
 import com.example.be_prac.dto.PassportReqDto;
 import com.example.be_prac.dto.PassportResDto;
+import com.example.be_prac.dto.PassportVerifyDto;
 import com.example.be_prac.entity.Passport;
 import com.example.be_prac.service.PassportService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +66,19 @@ public class PassportController {
         return (deletedPassport != null) ?
                 ResponseEntity.ok().build() :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("찾을 수 없습니다. 여권 번호를 확인해주세요.");
+    }
+
+
+    // 입국심사 직전 인증
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyPassport(@RequestBody PassportVerifyDto dto, HttpSession session){
+        boolean isVerified = passportService.verifyPassport(dto);
+
+        if (isVerified){
+            session.setAttribute("passport", dto);
+            return ResponseEntity.ok().build();
+        } else
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("여권 인증이 실패하였습니다.");
     }
 
 }
