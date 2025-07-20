@@ -1,26 +1,37 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>여권 관리</title>
+    <title>여권 관리 - 인천국제공항</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>여권 관리</h1>
-        <a href="/">홈으로</a>
+        <nav>
+            <ul>
+                <li><a href="/">홈</a></li>
+                <li><a href="/passport" class="active">여권 관리</a></li>
+                <li><a href="/visa">비자 관리</a></li>
+                <li><a href="/immigration">입국 심사</a></li>
+            </ul>
+        </nav>
 
-        <h2>여권 발급</h2>
+        <h2>여권 발급 및 관리</h2>
+
         <form id="passport-form">
-            <input type="text" id="passportNo" placeholder="여권 번호 (형식: BL13XX0000)" required>
-            <input type="text" id="fullName" placeholder="이름 (Full Name)" required>
-            <input type="text" id="countryCode" placeholder="국가 코드 (예: KOR)" required>
-            <input type="date" id="birthDate" placeholder="생년월일" required>
-            <button type="submit">발급</button>
+            <input type="text" id="passportNo" placeholder="여권 번호 (예: M12345678)" required>
+            <input type="text" id="fullName" placeholder="영문 이름 (Full Name)" required>
+            <select id="countryCode" required>
+                <option value="" disabled selected>국적 선택</option>
+                <!-- 국가 목록은 JS로 동적 추가 -->
+            </select>
+            <input type="date" id="birthDate" required>
+            <button type="submit">여권 발급 신청</button>
         </form>
 
-        <h2>여권 목록</h2>
+        <h2>보유 여권 목록</h2>
         <div id="passport-list"></div>
     </div>
 

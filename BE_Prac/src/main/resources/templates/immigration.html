@@ -1,29 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>입국 심사</title>
+    <title>입국 심사 - 인천국제공항</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>입국 심사</h1>
-        <a href="/">홈으로</a>
+        <nav>
+            <ul>
+                <li><a href="/">홈</a></li>
+                <li><a href="/passport">여권 관리</a></li>
+                <li><a href="/visa">비자 관리</a></li>
+                <li><a href="/immigration" class="active">입국 심사</a></li>
+            </ul>
+        </nav>
 
         <div id="verify-section">
-            <h2>여권 인증</h2>
+            <h2>여권 정보 인증</h2>
             <form id="verify-form">
-                <input type="text" id="passportNo" placeholder="여권 번호" required>
-                <button type="submit">인증</button>
+                <input type="text" id="passportNo" placeholder="인증할 여권 번호를 입력하세요" required>
+                <button type="submit">인증하기</button>
             </form>
         </div>
 
         <div id="chat-section" style="display: none;">
-            <h2>입국 심사관과의 대화</h2>
-            <div id="chat-box"></div>
+            <h2>가상 입국 심사</h2>
+            <div id="chat-container">
+                <div id="chat-box"></div>
+                <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
             <form id="chat-form">
-                <input type="text" id="chat-input" placeholder="답변을 입력하세요..." required>
+                <input type="text" id="chat-input" placeholder="답변을 입력하세요..." autocomplete="off" required>
                 <button type="submit">전송</button>
             </form>
         </div>
