@@ -4,8 +4,10 @@ import com.example.be_prac.dto.PassportReqDto;
 import com.example.be_prac.dto.PassportResDto;
 import com.example.be_prac.dto.PassportVerifyDto;
 import com.example.be_prac.entity.Passport;
+import com.example.be_prac.entity.Visa;
 import com.example.be_prac.repository.CountryRepository;
 import com.example.be_prac.repository.PassportRepository;
+import com.example.be_prac.repository.VisaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.List;
 public class PassportService {
     private final PassportRepository passportRepository;
     private final CountryRepository countryRepository;
+    private final VisaRepository visaRepository;
 
     public PassportResDto getPassport(String passportNo) {
         // Optional를 통해 null 체크를 강제함, 코드상에서 의도 확실히 명시하기 위함
@@ -59,6 +62,11 @@ public class PassportService {
         Passport passport = passportRepository.findByPassportNo(passportNo).orElse(null);
         if(passport == null) return null;
         else{
+            // 1. 여권에 연결된 비자들을 찾는다.
+            List<Visa> visas = visaRepository.findByPassport(passport);
+            // 2. 비자들을 삭제한다.
+            visaRepository.deleteAll(visas);
+            // 3. 여권을 삭제한다.
             passportRepository.delete(passport);
             return passport.toDto();
         }
@@ -81,8 +89,6 @@ public class PassportService {
     public boolean verifyPassport(PassportVerifyDto dto) {
         // 1. 여권 정보가 일치하는지 비교
         Passport passport = passportRepository.findByPassportNo(dto.getPassportNo()).orElse(null);
-        if(passport == null) return false;
-        // 국가 이름만 일치하는지 찾기, 일치하면 true 아니면 false
-        return passport.getCountry().getCode().equals(dto.getCountryCode());
+        return passport != null;
     }
 }

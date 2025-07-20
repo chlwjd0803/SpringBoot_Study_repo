@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여권 관리</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>여권 관리</h1>
+        <a href="/">홈으로</a>
+
+        <h2>여권 발급</h2>
+        <form id="passport-form">
+            <input type="text" id="passportNo" placeholder="여권 번호 (형식: BL13XX0000)" required>
+            <input type="text" id="fullName" placeholder="이름 (Full Name)" required>
+            <input type="text" id="countryCode" placeholder="국가 코드 (예: KOR)" required>
+            <input type="date" id="birthDate" placeholder="생년월일" required>
+            <button type="submit">발급</button>
+        </form>
+
+        <h2>여권 목록</h2>
+        <div id="passport-list"></div>
+    </div>
+
+    <script src="/js/passport.js"></script>
+</body>
+</html>
