@@ -23,6 +23,8 @@ public class VisaService {
     private final PassportRepository passportRepository;
     private final CountryRepository countryRepository;
 
+
+    // 메소드 이름 수정이 필요할 듯
     public List<VisaResDto> getVisa(String passportNo) {
         Passport passport = passportRepository.findByPassportNo(passportNo).orElse(null);
         if(passport == null) return null;
@@ -34,6 +36,20 @@ public class VisaService {
         for(Visa visa : visas) dtos.add(visa.toDto());
 
         return dtos;
+    }
+
+    // 중복 코드 수정이 필요할듯
+    public VisaResDto getVisaByPassportAndCountry(String passportNo, String countryCode) {
+        Passport passport = passportRepository.findByPassportNo(passportNo).orElse(null);
+        if(passport == null) return null;
+
+        Country country = countryRepository.findByCode(countryCode);
+        if(country == null) return null;
+
+        Visa visa = visaRepository.findByPassportAndCountry(passport, country);
+        if(visa == null) return null;
+
+        return visa.toDto();
     }
 
     public Visa makeVisa(VisaReqDto visaReqDto) {

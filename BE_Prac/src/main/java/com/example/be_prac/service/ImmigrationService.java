@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OpenAiService {
+public class ImmigrationService {
 
     @Value("${openai.api.key}")
     private String key;
